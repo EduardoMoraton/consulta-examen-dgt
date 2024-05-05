@@ -1,0 +1,62 @@
+import { HtmlUtils } from "@/utils/HtmlUtils.utils"
+import { NextRequest, NextResponse } from "next/server"
+
+ 
+type ResponseData = {
+  message: string
+}
+
+
+const viewState = "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"
+
+export const dynamic = 'force-dynamic' // defaults to auto
+export async function GET(request: NextRequest) {
+
+
+
+  var myHeaders = new Headers();
+myHeaders.append("Cookie", "JSESSIONID=0001JgiljlBMmw_5mioiPvOsXE-:-GOFCU8; dtCookie=v_4_srv_2_sn_3D546AA123F19A1A16317AE79EEE2F64_perc_100000_ol_0_mul_1_app-3A1916bb3e7dc35458_0; JSESSIONID=0001Mn-lE-lTw4sqe3j4zcepTIA:36TPNUSJEE");
+myHeaders.append("Origin", "https://sedeclave.dgt.gob.es");
+myHeaders.append("Referer", "https://sedeclave.dgt.gob.es/WEB_NOTP_CONSULTA/resultadoConsultaNota.faces");
+myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+console.log(request.nextUrl.searchParams)
+const nifnie = request.nextUrl.searchParams.get('nifnie')
+console.log(nifnie)
+
+var urlencoded = new URLSearchParams();
+urlencoded.append("formularioBusquedaNotas", "formularioBusquedaNotas");
+urlencoded.append("formularioBusquedaNotas:nifnie", nifnie ?? "");
+urlencoded.append("formularioBusquedaNotas:fechaExamen", request.nextUrl.searchParams.get('fechaExamen')!);
+urlencoded.append("formularioBusquedaNotas:clasepermiso", request.nextUrl.searchParams.get('clasePermiso')!);
+urlencoded.append("formularioBusquedaNotas:fechaNacimiento", request.nextUrl.searchParams.get('fechaNacimiento')!);
+urlencoded.append("formularioBusquedaNotas:honeypot", "");
+urlencoded.append("formularioBusquedaNotas:j_id51", "Buscar");
+urlencoded.append("javax.faces.ViewState", viewState)
+
+const requestOptions:any = {
+  method: 'POST',
+  headers: myHeaders,
+  body: urlencoded,
+  redirect: 'follow'
+};
+
+  let res:any = {}
+  await fetch("https://sedeclave.dgt.gob.es/WEB_NOTP_CONSULTA/consultaNota.faces", requestOptions)
+  .then(response => response.text())
+  .then(result => {
+    
+    const raw = HtmlUtils.getAllDivText(result)
+    const mapped = raw.map((line:string)=>{
+      if (line.includes('formCuadroIzq_big'))
+      
+        return line.split(">")[1].trim()
+    })
+    console.log(res)
+    res = mapped.filter((val)=>val!=null)
+
+    console.log(res)
+  })
+  .catch(error => console.log('error', error));
+  
+  return Response.json(JSON.stringify(res))
+}
