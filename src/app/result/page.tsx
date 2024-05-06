@@ -48,20 +48,26 @@ export default function Result() {
   }
 
   return (
-    <main className="flex items-start justify-center w-screen h-screen pt-10">
-      <div className={'flex flex-col gap-3 m-10'}>
-      <Suspense fallback={"<>Loading..</>"}>
-        {
-          lines.length > 2 ?
-          lines.map(((line, i)=>(
-            <DataLine key={i} label={"Linea de datos:"} data={line}></DataLine>
-          ))) : <div>No hay resultados</div>
+  
+    <Suspense fallback={"<>Loading..</>"}>
+        <main className="flex items-start justify-center w-screen h-screen pt-10">
+          <div className={'flex flex-col gap-3 m-10'}>
           
-          }
-      </Suspense>
+            {
+              lines.length > 2 ?
+              lines.map(((line, i)=>(
+                <DataLine key={i} label={"Linea de datos:"} data={line}></DataLine>
+              ))) : <div>No hay resultados</div>
+              
+              }
+        
 
-        <button onClick={handleShare} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Share</button>
-      </div>
-    </main>
+            <button onClick={handleShare} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Share</button>
+          </div>
+        </main>
+        
+     </Suspense>
+    
+ 
   );
 }
