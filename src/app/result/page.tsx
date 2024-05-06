@@ -50,7 +50,7 @@ export default function Result() {
   return (
     <main className="flex items-start justify-center w-screen h-screen pt-10">
       <div className={'flex flex-col gap-3 m-10'}>
-      <Suspense fallback={"<>Loading</>"}>
+      <Suspense fallback={"<>Loading..</>"}>
         {
           lines.length > 2 ?
           lines.map(((line, i)=>(
