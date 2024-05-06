@@ -6,26 +6,28 @@ import { Suspense, useEffect, useState } from "react";
 
 
 export default function Result() {
-  const a = "http://localhost:3000/api/getResult?nifnie=54641859T&fechaExamen=27/01/2023&clasepermiso=B&fechaNacimiento=28/11/2002"
   const [lines, setLines] = useState([""])
+  const searchParams = useSearchParams()
 
-  const fetchData = () => {
-    const searchParams = useSearchParams() // Moved inside fetchData
-    const nifnie = searchParams.get("nifnie")
-    const fechaExamen = searchParams.get("fechaExamen")
-    const clasePermiso = searchParams.get("clasepermiso")
-    const fechaNacimiento = searchParams.get("fechaNacimiento")
+  useEffect(() => {
+    const fetchData = async () => {
+      const nifnie = searchParams.get("nifnie")
+      const fechaExamen = searchParams.get("fechaExamen")
+      const clasePermiso = searchParams.get("clasepermiso")
+      const fechaNacimiento = searchParams.get("fechaNacimiento")
 
-    fetch(`api/getResult?nifnie=${nifnie}&fechaExamen=${fechaExamen}&clasePermiso=${clasePermiso}&fechaNacimiento=${fechaNacimiento}`).then((res)=>res.json().then((jsonData=>{
-      console.log(jsonData)
-      setLines(JSON.parse(jsonData))
-    })))
-  }
-  useEffect(()=>{
+      try {
+        const res = await fetch(`api/getResult?nifnie=${nifnie}&fechaExamen=${fechaExamen}&clasePermiso=${clasePermiso}&fechaNacimiento=${fechaNacimiento}`)
+        const jsonData = await res.json()
+        setLines(JSON.parse(jsonData))
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
     fetchData()
-  }, [])
+  }, [searchParams])
 
-  
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
