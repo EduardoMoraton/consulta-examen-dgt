@@ -56,9 +56,9 @@ export default function Result() {
             {
               lines.length > 2 ?
               lines.map(((line, i)=>(
-                <Suspense>
+
                   <DataLine key={i} label={"Linea de datos:"} data={line}></DataLine>
-                </Suspense>
+
                 
               ))) : <div>No hay resultados</div>
               
