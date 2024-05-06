@@ -49,14 +49,17 @@ export default function Result() {
 
   return (
   
-    <Suspense fallback={"<>Loading..</>"}>
+
         <main className="flex items-start justify-center w-screen h-screen pt-10">
           <div className={'flex flex-col gap-3 m-10'}>
           
             {
               lines.length > 2 ?
               lines.map(((line, i)=>(
-                <DataLine key={i} label={"Linea de datos:"} data={line}></DataLine>
+                <Suspense>
+                  <DataLine key={i} label={"Linea de datos:"} data={line}></DataLine>
+                </Suspense>
+                
               ))) : <div>No hay resultados</div>
               
               }
@@ -66,7 +69,7 @@ export default function Result() {
           </div>
         </main>
         
-     </Suspense>
+   
     
  
   );
