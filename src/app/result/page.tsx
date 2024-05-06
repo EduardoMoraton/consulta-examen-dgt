@@ -49,8 +49,8 @@ export default function Result() {
 
   return (
   
-
-        <main className="flex items-start justify-center w-screen h-screen pt-10">
+    <Suspense fallback={'<>Loading...</>'}>
+                <main className="flex items-start justify-center w-screen h-screen pt-10">
           <div className={'flex flex-col gap-3 m-10'}>
           
             {
@@ -68,6 +68,8 @@ export default function Result() {
             <button onClick={handleShare} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Share</button>
           </div>
         </main>
+    </Suspense>
+
         
    
     
